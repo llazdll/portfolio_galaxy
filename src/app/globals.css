@@ -200,6 +200,14 @@ canvas {
   font-weight: 600;
   color: #ededed;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skill-tooltip .skill-icon-inline {
+  font-size: 15px;
+  filter: drop-shadow(0 0 4px currentColor);
 }
 
 .skill-tooltip .skill-level {

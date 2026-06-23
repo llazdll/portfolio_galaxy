@@ -5,6 +5,55 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Line } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, useInView } from "framer-motion";
+import {
+  SiPython,
+  SiMysql,
+  SiPandas,
+  SiNumpy,
+  SiScikitlearn,
+  SiTensorflow,
+  // SiTableau,
+  SiJupyter,
+  SiPytorch,
+  SiR,
+  SiNextdotjs,
+  // SiMicrosoft,
+} from "react-icons/si";
+import type { IconType } from "react-icons";
+import { IoLogoTableau } from "react-icons/io5";
+
+// ─── Icon mapping ────────────────────────────────────────────────────────────
+
+const skillIcons: Record<string, IconType> = {
+  Python: SiPython,
+  R: SiR,
+  SQL: SiMysql,
+  Pandas: SiPandas,
+  NumPy: SiNumpy,
+  "Scikit-learn": SiScikitlearn,
+  PyTorch: SiPytorch,
+  TensorFlow: SiTensorflow,
+  // PowerBI: SiMicrosoft,
+  Tableau: IoLogoTableau,
+  Jupyter: SiJupyter,
+  "Next.js": SiNextdotjs,
+};
+
+// Brand colors for icons
+const skillIconColors: Record<string, string> = {
+  Python: "#3776AB",
+  R: "#276DC3",
+  SQL: "#CC2927",
+  Pandas: "#150458",
+  NumPy: "#4DABCF",
+  "Scikit-learn": "#F89939",
+  PyTorch: "#EE4C2C",
+  TensorFlow: "#FF6F00",
+  PowerBI: "#F2C811",
+  Tableau: "#E97627",
+  Jupyter: "#F37626",
+  "Next.js": "#ffffff",
+};
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -312,7 +361,13 @@ function SkillNode({
             style={{ pointerEvents: "none" }}
           >
             <div className="skill-tooltip">
-              <span className="skill-name">{name}</span>
+              <span className="skill-name">
+                {(() => {
+                  const Icon = skillIcons[name];
+                  return Icon ? <Icon className="skill-icon-inline" /> : null;
+                })()}
+                {name}
+              </span>
               <span className="skill-level">{level}%</span>
             </div>
           </Html>
@@ -529,31 +584,47 @@ function CategoryCard({
           </div>
         </div>
 
-        {/* Mini progress bars */}
-        <div className="space-y-2">
-          {category.skills.map((skill) => (
-            <div key={skill.name} className="flex items-center gap-2">
-              <span className="text-[10px] text-[#8888a0] w-16 truncate shrink-0">
-                {skill.name}
-              </span>
-              <div className="flex-1 h-1 bg-[#1e1e2e] rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={isVisible ? { width: `${skill.level}%` } : { width: 0 }}
-                  transition={{
-                    duration: 1,
-                    delay: 0.8 + index * 0.1 + Math.random() * 0.3,
-                    ease: "easeOut",
-                  }}
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: category.color }}
-                />
+        {/* Skills list with icons */}
+        <div className="space-y-2.5">
+          {category.skills.map((skill) => {
+            const Icon = skillIcons[skill.name];
+            const iconColor = skillIconColors[skill.name] || category.color;
+            return (
+              <div key={skill.name} className="group/skill">
+                <div className="flex items-center gap-2 mb-1">
+                  {Icon && (
+                    <Icon
+                      size={14}
+                      className="shrink-0 transition-transform duration-200 group-hover/skill:scale-125"
+                      style={{ color: iconColor }}
+                    />
+                  )}
+                  <span className="text-[11px] text-[#ededed] font-medium truncate">
+                    {skill.name}
+                  </span>
+                  <span
+                    className="text-[10px] font-mono ml-auto shrink-0"
+                    style={{ color: category.color }}
+                  >
+                    {skill.level}%
+                  </span>
+                </div>
+                <div className="h-1 bg-[#1e1e2e] rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={isVisible ? { width: `${skill.level}%` } : { width: 0 }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.8 + index * 0.1 + Math.random() * 0.3,
+                      ease: "easeOut",
+                    }}
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: category.color }}
+                  />
+                </div>
               </div>
-              <span className="text-[10px] font-mono w-7 text-right" style={{ color: category.color }}>
-                {skill.level}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </motion.div>
