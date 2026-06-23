@@ -12,28 +12,27 @@ import {
   SiNumpy,
   SiScikitlearn,
   SiTensorflow,
-  // SiTableau,
   SiJupyter,
   SiPytorch,
   SiR,
   SiNextdotjs,
-  // SiMicrosoft,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
 import { IoLogoTableau } from "react-icons/io5";
+import { FaChartBar,FaDatabase } from "react-icons/fa";
 
 // ─── Icon mapping ────────────────────────────────────────────────────────────
 
 const skillIcons: Record<string, IconType> = {
   Python: SiPython,
   R: SiR,
-  SQL: SiMysql,
+  SQL: FaDatabase,
   Pandas: SiPandas,
   NumPy: SiNumpy,
   "Scikit-learn": SiScikitlearn,
   PyTorch: SiPytorch,
   TensorFlow: SiTensorflow,
-  // PowerBI: SiMicrosoft,
+  PowerBI: FaChartBar,
   Tableau: IoLogoTableau,
   Jupyter: SiJupyter,
   "Next.js": SiNextdotjs,
@@ -54,7 +53,6 @@ const skillIconColors: Record<string, string> = {
   Jupyter: "#F37626",
   "Next.js": "#ffffff",
 };
-
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const skillCategories = [
