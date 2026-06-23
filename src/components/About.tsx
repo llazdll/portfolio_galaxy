@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code2, Database, BarChart3, Palette } from "lucide-react";
 
@@ -21,6 +20,45 @@ const highlights = [
 
 function AnimatedCounter({ value }: { value: string }) {
   return <span className="text-3xl sm:text-4xl font-bold text-gradient">{value}</span>;
+}
+
+function TiltCard({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    ref.current.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!ref.current) return;
+    ref.current.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)";
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+      style={{ transition: "transform 0.2s ease-out" }}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default function About() {
@@ -55,7 +93,7 @@ export default function About() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <h3 className="text-2xl font-bold mb-4">
-              A passionate <span className="text-gradient">Data Scientist</span> based in{" "}
+              A passionate <span className="text-gradient">Data scientist</span> based in{" "}
               <span className="text-[#00d4aa]">Karaj, Iran</span>
             </h3>
             <p className="text-[#8888a0] leading-relaxed mb-6">
@@ -88,7 +126,7 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Right - Highlight cards */}
+          {/* Right - Highlight cards with 3D tilt */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -101,14 +139,22 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="p-5 rounded-2xl bg-[#12121a] border border-[#1e1e2e] hover:border-[#6c63ff]/30 transition-colors group"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#6c63ff]/10 flex items-center justify-center mb-3 group-hover:bg-[#6c63ff]/20 transition-colors">
-                  <item.icon size={20} className="text-[#6c63ff]" />
-                </div>
-                <h4 className="font-semibold text-sm mb-1">{item.title}</h4>
-                <p className="text-xs text-[#8888a0] leading-relaxed">{item.desc}</p>
+                <TiltCard className="relative p-5 rounded-2xl bg-[#12121a] border border-[#1e1e2e] hover:border-[#6c63ff]/30 transition-colors group h-full">
+                  <motion.div
+                    className="w-10 h-10 rounded-xl bg-[#6c63ff]/10 flex items-center justify-center mb-3 group-hover:bg-[#6c63ff]/20 transition-colors"
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                  >
+                    <item.icon size={20} className="text-[#6c63ff]" />
+                  </motion.div>
+                  <h4 className="font-semibold text-sm mb-1">{item.title}</h4>
+                  <p className="text-xs text-[#8888a0] leading-relaxed">{item.desc}</p>
+                  {/* Animated gradient border on hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none p-[1px]">
+                    <div className="w-full h-full rounded-2xl border border-transparent bg-gradient-to-br from-[#6c63ff]/20 via-transparent to-[#00d4aa]/20" />
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </motion.div>

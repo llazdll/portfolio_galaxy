@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Send } from "lucide-react";
 import { LinkedInIcon, GitHubIcon } from "./Icons";
+import dynamic from "next/dynamic";
+
+const Hero3D = dynamic(() => import("./Hero3D"), { ssr: false });
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,6 +26,41 @@ const socialLinks = [
   { icon: Send, href: "https://t.me/lllAzdlll", label: "Telegram" },
 ];
 
+function Sparkle({ delay, x, y }: { delay: number; x: string; y: string }) {
+  return (
+    <motion.div
+      className="absolute w-1 h-1 rounded-full bg-[#6c63ff]"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: [0, 1, 0],
+        scale: [0, 1, 0],
+      }}
+      transition={{
+        duration: 2,
+        delay,
+        repeat: Infinity,
+        repeatDelay: Math.random() * 3,
+      }}
+    />
+  );
+}
+
+const sparkles = [
+  { delay: 0, x: "10%", y: "20%" },
+  { delay: 0.5, x: "85%", y: "15%" },
+  { delay: 1, x: "70%", y: "70%" },
+  { delay: 1.5, x: "15%", y: "75%" },
+  { delay: 2, x: "50%", y: "10%" },
+  { delay: 0.3, x: "30%", y: "85%" },
+  { delay: 0.8, x: "90%", y: "50%" },
+  { delay: 1.2, x: "5%", y: "45%" },
+  { delay: 1.8, x: "60%", y: "30%" },
+  { delay: 0.6, x: "25%", y: "40%" },
+  { delay: 2.2, x: "75%", y: "85%" },
+  { delay: 0.4, x: "45%", y: "60%" },
+];
+
 export default function Hero() {
   return (
     <section
@@ -41,6 +79,23 @@ export default function Hero() {
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
           className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00d4aa]/8 rounded-full blur-[120px]"
         />
+        <motion.div
+          animate={{ x: [0, 30, 0], y: [0, 50, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 right-1/3 w-48 h-48 bg-[#6c63ff]/5 rounded-full blur-[80px]"
+        />
+      </div>
+
+      {/* Sparkle particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {sparkles.map((s, i) => (
+          <Sparkle key={i} {...s} />
+        ))}
+      </div>
+
+      {/* 3D Element - right side */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 w-64 h-64 lg:w-80 lg:h-80 opacity-70 hidden md:block pointer-events-none">
+        <Hero3D />
       </div>
 
       <motion.div
