@@ -28,9 +28,10 @@ export default function Work() {
             Featured <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-[#8888a0] max-w-2xl mx-auto leading-relaxed">
-            A collection of projects I&apos;ve built, powered by my GitHub
-            repositories. Each project is automatically detected from its
-            README metadata.
+            A collection of projects I&apos;ve built, sourced from my GitHub
+            repositories. Any repository containing a{" "}
+            <code className="text-[#6c63ff]">portfolio.md</code> file is
+            automatically displayed here.
           </p>
         </motion.div>
 

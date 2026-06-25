@@ -12,18 +12,22 @@ export function parsePortfolioMd(
   options: ParseOptions = {}
 ): PortfolioProject | null {
   const parsed = parseFrontmatter(content);
+
+  console.log("[Parser] Raw content:", content);
+  console.log("[Parser] Parsed frontmatter:", parsed);
+
   if (!parsed) return null;
 
   const data = parsed.data as Record<string, unknown>;
 
-  // Must have portfolio: true
-  if (data.portfolio !== true) return null;
-
-  // Required fields
+  // Required fields — existence of portfolio.md is the only gate
   const title = typeof data.title === "string" ? data.title : "";
   const description = typeof data.description === "string" ? data.description : "";
+  const category = typeof data.category === "string" ? data.category : "";
 
-  if (!title || !description) return null;
+  console.log("[Parser] Extracted fields:", { title, description, category });
+
+  if (!title || !description || !category) return null;
 
   const technologies = Array.isArray(data.technologies)
     ? data.technologies.filter((t): t is string => typeof t === "string")
@@ -36,7 +40,7 @@ export function parsePortfolioMd(
   return {
     title,
     description,
-    category: typeof data.category === "string" ? data.category : "Other",
+    category,
     stack: technologies,
     technologies,
     features,

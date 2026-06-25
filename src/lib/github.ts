@@ -13,7 +13,8 @@ const headers: HeadersInit = GITHUB_TOKEN
   : { "Content-Type": "application/json" };
 
 async function fetchFromGitHub<T>(path: string): Promise<T> {
-  const res = await fetch(`${GITHUB_API_BASE}${path}`, {
+  const url = `${GITHUB_API_BASE}${path}`;
+  const res = await fetch(url, {
     next: { revalidate: 3600 },
     headers,
   });
@@ -36,27 +37,66 @@ export interface GitHubRepo {
 }
 
 export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
+  const url = `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos`;
+
+  console.log("[GitHub] Fetching repositories:", url);
+
   const repos = await fetchFromGitHub<GitHubRepo[]>(
     `/users/${GITHUB_USERNAME}/repos`
   );
+
+  console.log("[GitHub] Repositories response:", {
+    status: 200,
+    count: repos.length,
+  });
+
   return repos.filter((repo) => !repo.name.startsWith("."));
 }
 
 export async function fetchPortfolioFile(
   repoName: string
 ): Promise<string | null> {
+  const url = `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${repoName}/contents/portfolio.md`;
+
+  console.log("[GitHub] Checking portfolio file:", { repo: repoName, url });
+
   try {
-    const data = await fetchFromGitHub<{      content: string;
+    const res = await fetch(url, { next: { revalidate: 3600 }, headers });
+
+    console.log("[GitHub] portfolio.md response:", {
+      repo: repoName,
+      status: res.status,
+      exists: res.ok,
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.log("[Portfolio] Ignored - no portfolio.md:", repoName);
+      } else {
+        console.error("[GitHub API Error]", {
+          repo: repoName,
+          status: res.status,
+          statusText: res.statusText,
+        });
+      }
+      return null;
+    }
+
+    const data = (await res.json()) as {
+      content: string;
       encoding: string;
       name: string;
-    }>(`/repos/${GITHUB_USERNAME}/${repoName}/contents/portfolio.md`);
+    };
 
     if (data.content && data.encoding === "base64") {
+      console.log("[Portfolio] Found portfolio.md:", repoName);
       return Buffer.from(data.content, "base64").toString("utf-8");
     }
 
+    console.log("[Portfolio] Ignored - no portfolio.md:", repoName);
     return null;
-  } catch {
+  } catch (error) {
+    console.error("[GitHub API Error]", error);
     return null;
   }
 }
@@ -70,6 +110,8 @@ export async function getPortfolioProjects(): Promise<PortfolioProject[]> {
     const batch = repos.slice(i, i + batchSize);
     const batchResults = await Promise.all(
       batch.map(async (repo): Promise<PortfolioProject | null> => {
+        console.log("[Portfolio] Processing repo:", repo.name);
+
         const raw = await fetchPortfolioFile(repo.name);
         if (!raw) return null;
 
@@ -107,6 +149,8 @@ export async function getPortfolioProjects(): Promise<PortfolioProject[]> {
       ...batchResults.filter((p): p is PortfolioProject => p !== null)
     );
   }
+
+  console.log("[Portfolio] Final projects:", projects);
 
   return projects;
 }

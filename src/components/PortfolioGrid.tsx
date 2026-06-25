@@ -74,8 +74,8 @@ export default function PortfolioGrid() {
     return (
       <div className="text-center py-12">
         <p className="text-[#8888a0] text-sm">
-          No portfolio projects found. Add a README with{" "}
-          <code className="text-[#6c63ff]">status:portfolio</code> to your
+          No portfolio projects found. Add a{" "}
+          <code className="text-[#6c63ff]">portfolio.md</code> file to your
           GitHub repositories.
         </p>
       </div>
