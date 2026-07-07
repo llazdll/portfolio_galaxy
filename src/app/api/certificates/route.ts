@@ -39,14 +39,26 @@ function getIssuerFromName(name: string): string {
   if (lowerName.includes("power bi")) return "Power BI";
   if (lowerName.includes("tableau")) return "Tableau";
   if (lowerName.includes("spss")) return "IBM";
-  if (lowerName.includes("ikiu") || lowerName.includes("deep learning")) return "IKIU";
+  if (lowerName.includes("ikiu")) return "IKIU";
   return "DataCamp";
 }
 
 // Helper to determine year from certificate name
 function getDateFromName(name: string): string {
   const lowerName = name.toLowerCase();
-  if (lowerName.includes("updated- july 2022")) return "2022";
+
+  // Check for specific year patterns in the name
+  const yearMatch = name.match(/202[3-9]/);
+  if (yearMatch) {
+    return yearMatch[0];
+  }
+
+  // Check for "Updated - July 2022" pattern
+  if (lowerName.includes("updated") && lowerName.includes("july 2022")) {
+    return "2022";
+  }
+
+  // Default to 2024 if no date found
   return "2024";
 }
 

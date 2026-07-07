@@ -5,6 +5,7 @@ import Skills3D from "@/components/Skills3D";
 import Services from "@/components/Services";
 import Work from "@/components/Work";
 import Resume from "@/components/Resume";
+import Certificates from "@/components/Certificates";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ParticleField from "@/components/ParticleField";
@@ -23,6 +24,7 @@ export default function Home() {
         <Services />
         <Work />
         <Resume />
+        <Certificates />
         <Contact />
       </main>
       <Footer />
