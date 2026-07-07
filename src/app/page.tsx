@@ -9,7 +9,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ParticleField from "@/components/ParticleField";
 import MagicalCursor from "@/components/MagicalCursor";
-
+import Certificates from "@/components/Certificates";
 export default function Home() {
   return (
     <>
@@ -23,6 +23,7 @@ export default function Home() {
         <Services />
         <Work />
         <Resume />
+        <Certificates />
         <Contact />
       </main>
       <Footer />
