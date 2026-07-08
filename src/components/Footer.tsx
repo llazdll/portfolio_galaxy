@@ -6,7 +6,7 @@ import { LinkedInIcon, GitHubIcon } from "./Icons";
 
 const socialLinks = [
   { icon: GitHubIcon, href: "https://github.com/llazdll", label: "GitHub" },
-  { icon: LinkedInIcon, href: "https://linkedin.com/in/mohammad-hosein-azadi-963308231", label: "LinkedIn" },
+  { icon: LinkedInIcon, href: "https://www.linkedin.com/in/mohammad-hossein-azadi-56162b416/", label: "LinkedIn" },
   { icon: Send, href: "https://t.me/lllAzdlll", label: "Telegram" },
 ];
 

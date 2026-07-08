@@ -7,13 +7,6 @@ import { Globe, Video, Image, Search, BarChart3, Code2 } from "lucide-react";
 const services = [
   {
     icon: Globe,
-    title: "Web Development",
-    description:
-      "Building fast, scalable, and SEO-friendly websites using React, Next.js, and modern web technologies with component-based architecture and server-side rendering.",
-    color: "#6c63ff",
-  },
-  {
-    icon: BarChart3,
     title: "Data Science",
     description:
       "Transforming raw data into actionable insights using statistical analysis, machine learning, and predictive modeling with Python, R, and SQL.",
@@ -21,24 +14,24 @@ const services = [
   },
   {
     icon: Video,
-    title: "Video Editing",
+    title: "Machine Learning",
     description:
-      "Professional video editing with transitions, color grading, and advanced effects using Adobe Premiere Pro for polished, engaging content.",
-    color: "#ff6b6b",
+      "Developing and deploying machine learning models to solve complex problems, optimize processes, and enhance decision-making across various domains.",
+    color: "#ffb400",
   },
   {
     icon: Image,
-    title: "Photo Editing",
+    title: "Deep Learning",
     description:
-      "Expert photo retouching, color enhancement, sharpening, and creative effects using Photoshop to bring visual content to life.",
-    color: "#ffd93d",
-  },
-  {
-    icon: Search,
-    title: "SEO Optimization",
+      "Implementing deep learning architectures such as CNNs and RNNs for image recognition, natural language processing, and other advanced AI applications.",
+    color: "#ff6b6b",
+  }
+  ,{
+    icon:  BarChart3,
+    title:"Data Analysis",
     description:
-      "Improving search engine visibility through keyword research, on-page optimization, technical SEO, and data-driven content strategies.",
-    color: "#ff8a5c",
+      "Analyzing complex datasets to uncover trends, patterns, and insights that drive informed decision-making and business strategies.",
+    color: "#ff6b6b",
   },
   {
     icon: Code2,
@@ -47,6 +40,13 @@ const services = [
       "Creating compelling charts, dashboards, and interactive visualizations that make complex data understandable and actionable.",
     color: "#a855f7",
   },
+  {
+    icon: Globe,
+    title: "Web Development",
+    description:
+      "Building fast, scalable, and SEO-friendly websites using React, Next.js, and modern web technologies with component-based architecture and server-side rendering.",
+    color: "#6c63ff",
+  }
 ];
 
 export default function Services() {

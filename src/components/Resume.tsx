@@ -48,7 +48,7 @@ const skills = [
 export default function Resume() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
+  const downloadCV = '\Mohammad Hossein Azadi front-end.pdf'
   return (
     <section id="resume" className="py-24 sm:py-32 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-[#1e1e2e] to-transparent" />
@@ -68,7 +68,7 @@ export default function Resume() {
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#6c63ff] to-[#00d4aa] mx-auto rounded-full mb-8" />
           <a
-            href="#"
+            href={downloadCV}
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#6c63ff] hover:bg-[#5a52e0] text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-[#6c63ff]/25 hover:-translate-y-0.5"
           >
             <Download size={18} />
